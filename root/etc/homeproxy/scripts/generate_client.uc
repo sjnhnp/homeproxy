@@ -482,8 +482,11 @@ if (!isEmpty(main_node)) {
 		push(config.dns.rules, {
 			rule_set: 'geosite-cn',
 			action: 'route',
-			server: 'china-dns',
-			strategy: 'prefer_ipv6'
+			server: 'china-dns'
+		});
+		push(config.dns.rules, {
+			action: 'evaluate',
+			server: 'main-dns'
 		});
 		push(config.dns.rules, {
 			type: 'logical',
@@ -494,12 +497,12 @@ if (!isEmpty(main_node)) {
 					invert: true
 				},
 				{
-					rule_set: 'geoip-cn'
+					rule_set: 'geoip-cn',
+					match_response: true
 				}
 			],
 			action: 'route',
-			server: 'china-dns',
-			strategy: 'prefer_ipv6'
+			server: 'china-dns'
 		});
 	}
 } else if (!isEmpty(default_outbound)) {

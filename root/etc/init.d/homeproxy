@@ -5,6 +5,13 @@
 
 USE_PROCD=1
 export ENABLE_DEPRECATED_LEGACY_RULE_SET_DOWNLOAD_DETOUR=true
+export ENABLE_DEPRECATED_LEGACY_DNS_ADDRESS_FILTER=true
+export ENABLE_DEPRECATED_DNS_RULE_RULE_SET_IP_CIDR_ACCEPT_EMPTY=true
+export ENABLE_DEPRECATED_LEGACY_DNS_RULE_STRATEGY=true
+export ENABLE_DEPRECATED_INDEPENDENT_DNS_CACHE=true
+export ENABLE_DEPRECATED_STORE_RDRC=true
+export ENABLE_DEPRECATED_IMPLICIT_DEFAULT_HTTP_CLIENT=true
+export ENABLE_DEPRECATED_TUN_STACK=true
 
 START=99
 STOP=10
@@ -153,6 +160,13 @@ start_service() {
 		# QUIC-GO GSO is broken on kernel 6.6 currently
 		uname -r | grep -Eq "^6\.6" && procd_set_param env "QUIC_GO_DISABLE_GSO"="true"
 		procd_set_param env "ENABLE_DEPRECATED_LEGACY_RULE_SET_DOWNLOAD_DETOUR"="true"
+		procd_set_param env "ENABLE_DEPRECATED_LEGACY_DNS_ADDRESS_FILTER"="true"
+		procd_set_param env "ENABLE_DEPRECATED_DNS_RULE_RULE_SET_IP_CIDR_ACCEPT_EMPTY"="true"
+		procd_set_param env "ENABLE_DEPRECATED_LEGACY_DNS_RULE_STRATEGY"="true"
+		procd_set_param env "ENABLE_DEPRECATED_INDEPENDENT_DNS_CACHE"="true"
+		procd_set_param env "ENABLE_DEPRECATED_STORE_RDRC"="true"
+		procd_set_param env "ENABLE_DEPRECATED_IMPLICIT_DEFAULT_HTTP_CLIENT"="true"
+		procd_set_param env "ENABLE_DEPRECATED_TUN_STACK"="true"
 
 		if [ -x "/sbin/ujail" ] && [ "$routing_mode" != "custom" ] && ! grep -Eq '"type": "(wireguard|tun)"' "$RUN_DIR/sing-box-c.json"; then
 			procd_add_jail "sing-box-c" log procfs
@@ -198,6 +212,13 @@ start_service() {
 		# QUIC-GO GSO is broken on kernel 6.6 currently
 		uname -r | grep -Eq "^6\.6" && procd_set_param env "QUIC_GO_DISABLE_GSO"="true"
 		procd_set_param env "ENABLE_DEPRECATED_LEGACY_RULE_SET_DOWNLOAD_DETOUR"="true"
+		procd_set_param env "ENABLE_DEPRECATED_LEGACY_DNS_ADDRESS_FILTER"="true"
+		procd_set_param env "ENABLE_DEPRECATED_DNS_RULE_RULE_SET_IP_CIDR_ACCEPT_EMPTY"="true"
+		procd_set_param env "ENABLE_DEPRECATED_LEGACY_DNS_RULE_STRATEGY"="true"
+		procd_set_param env "ENABLE_DEPRECATED_INDEPENDENT_DNS_CACHE"="true"
+		procd_set_param env "ENABLE_DEPRECATED_STORE_RDRC"="true"
+		procd_set_param env "ENABLE_DEPRECATED_IMPLICIT_DEFAULT_HTTP_CLIENT"="true"
+		procd_set_param env "ENABLE_DEPRECATED_TUN_STACK"="true"
 
 		if [ -x "/sbin/ujail" ]; then
 			procd_add_jail "sing-box-s" log procfs

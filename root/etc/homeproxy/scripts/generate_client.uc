@@ -849,21 +849,27 @@ if (!isEmpty(main_node)) {
 			tag: 'geoip-cn',
 			format: 'binary',
 			url: 'https://fastly.jsdelivr.net/gh/1715173329/IPCIDR-CHINA@rule-set/cn.srs',
-			download_detour: 'main-out'
+			http_client: {
+				detour: 'main-out'
+			}
 		});
 		push(config.route.rule_set, {
 			type: 'remote',
 			tag: 'geosite-cn',
 			format: 'binary',
 			url: 'https://fastly.jsdelivr.net/gh/1715173329/sing-geosite@rule-set-unstable/geosite-geolocation-cn.srs',
-			download_detour: 'main-out'
+			http_client: {
+				detour: 'main-out'
+			}
 		});
 		push(config.route.rule_set, {
 			type: 'remote',
 			tag: 'geosite-noncn',
 			format: 'binary',
 			url: 'https://fastly.jsdelivr.net/gh/1715173329/sing-geosite@rule-set-unstable/geosite-geolocation-!cn.srs',
-			download_detour: 'main-out'
+			http_client: {
+				detour: 'main-out'
+			}
 		});
 	}
 
@@ -928,15 +934,21 @@ if (!isEmpty(main_node)) {
 		if (cfg.enabled !== '1')
 			return null;
 
-		push(config.route.rule_set, {
+		let outbound_detour = get_outbound(cfg.outbound);
+		let ruleset_item = {
 			type: cfg.type,
 			tag: 'cfg-' + cfg['.name'] + '-rule',
 			format: cfg.format,
 			path: cfg.path,
 			url: cfg.url,
-			download_detour: get_outbound(cfg.outbound),
 			update_interval: cfg.update_interval
-		});
+		};
+		if (!isEmpty(outbound_detour)) {
+			ruleset_item.http_client = {
+				detour: outbound_detour
+			};
+		}
+		push(config.route.rule_set, ruleset_item);
 	});
 }
 /* Routing rules end */

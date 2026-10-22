@@ -4,6 +4,7 @@
 # Copyright (C) 2022-2023 ImmortalWrt.org
 
 USE_PROCD=1
+export ENABLE_DEPRECATED_LEGACY_RULE_SET_DOWNLOAD_DETOUR=true
 
 START=99
 STOP=10
@@ -151,6 +152,7 @@ start_service() {
 
 		# QUIC-GO GSO is broken on kernel 6.6 currently
 		uname -r | grep -Eq "^6\.6" && procd_set_param env "QUIC_GO_DISABLE_GSO"="true"
+		procd_set_param env "ENABLE_DEPRECATED_LEGACY_RULE_SET_DOWNLOAD_DETOUR"="true"
 
 		if [ -x "/sbin/ujail" ] && [ "$routing_mode" != "custom" ] && ! grep -Eq '"type": "(wireguard|tun)"' "$RUN_DIR/sing-box-c.json"; then
 			procd_add_jail "sing-box-c" log procfs
@@ -195,6 +197,7 @@ start_service() {
 
 		# QUIC-GO GSO is broken on kernel 6.6 currently
 		uname -r | grep -Eq "^6\.6" && procd_set_param env "QUIC_GO_DISABLE_GSO"="true"
+		procd_set_param env "ENABLE_DEPRECATED_LEGACY_RULE_SET_DOWNLOAD_DETOUR"="true"
 
 		if [ -x "/sbin/ujail" ]; then
 			procd_add_jail "sing-box-s" log procfs

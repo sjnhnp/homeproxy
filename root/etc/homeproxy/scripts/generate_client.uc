@@ -504,6 +504,10 @@ if (!isEmpty(main_node)) {
 			action: 'route',
 			server: 'china-dns'
 		});
+		push(config.dns.rules, {
+			action: 'route',
+			server: 'main-dns'
+		});
 	}
 } else if (!isEmpty(default_outbound)) {
 	/* DNS servers */
@@ -561,8 +565,8 @@ if (!isEmpty(main_node)) {
 			process_path_regex: cfg.process_path_regex,
 			user: cfg.user,
 			rule_set: get_ruleset(cfg.rule_set),
-			rule_set_ip_cidr_match_source: strToBool(cfg.rule_set_ip_cidr_match_source),
-			rule_set_ip_cidr_accept_empty: strToBool(cfg.rule_set_ip_cidr_accept_empty),
+			rule_set_ip_cidr_match_source: strToBool(cfg.rule_set_ip_cidr_match_source) ? true : null,
+			rule_set_ip_cidr_accept_empty: strToBool(cfg.rule_set_ip_cidr_accept_empty) ? true : null,
 			invert: strToBool(cfg.invert),
 			outbound: get_outbound(cfg.outbound),
 			action: cfg.action,
@@ -635,7 +639,7 @@ if (match(proxy_mode, /tun/))
 		auto_route: false,
 		endpoint_independent_nat: strToBool(endpoint_independent_nat),
 		udp_timeout: strToTime(udp_timeout),
-		stack: tcpip_stack
+		stack: (tcpip_stack && tcpip_stack !== 'system') ? tcpip_stack : null
 	});
 /* Inbound end */
 
@@ -962,8 +966,8 @@ if (routing_mode in ['bypass_mainland_china', 'custom']) {
 		cache_file: {
 			enabled: true,
 			path: RUN_DIR + '/cache.db',
-			store_rdrc: strToBool(cache_file_store_rdrc),
-			rdrc_timeout: strToTime(cache_file_rdrc_timeout),
+			store_fakeip: true,
+			store_dns: strToBool(cache_file_store_rdrc)
 		}
 	};
 }
